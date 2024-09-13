@@ -1,221 +1,33 @@
 # Overview
 
-This project allows Qodly Studio Devs to create their own components using the Standalone editor. and leveraging the pwer of the React library,
-This document goal is to help developers learn about the API used to implement their first Qodly custom component
+The mekko chart component, provided by the nivo library, also known by the Marimekko chart, is a two-dimensional stacked chart where the width of the columns varies according to the size of the data sections provided.
+It can be useful in many purposes, mainly for data analysis, and it combines two dimensions of information into a single chart, providing an overall complete perspective of complex data.
 
-## Getting Started
+## Mekko chart component
+![Mekko chart](public/mekkoChart.png)
+insert image!
 
-### Prerequisites:
+### Datasource
 
-- [Node.js](https://nodejs.org/en/) >= 20
-- npm >= 10
+| Name         | Type  | Required | Description                                                                                     |
+| ------------ | ----- | -------- | ----------------------------------------------------------------------------------------------- |
+| Qodly source | Array | Yes      | Will contain the set of objects where each object represents a series or category in the chart. |
 
-### Installing
+## Properties
 
-```bash
-npm i
-```
-
-### Running
-
-```bash
-npm run dev
-```
-
-### Generating a new component
-
-In order to add a new component, you can simply run this command:
-
-```bash
-npm run generate:component
-```
-
-This will ask you to provide the name of the component and generate a new component in the `components` folder
-
-## Introduction
-
-The `components` folder is where the custom components live, to create your first component you have the freedom to implement it the way you like but we recomment using this component structure
-
-```
-   - components
-      - ExampleComponent
-         - ExampleComponent.build.tsx
-         - ExampleComponent.render.tsx
-         - ExampleComponent.settings.tsx
-         - ExampleComponent.config.tsx
-         - index.tsx
-```
-
-Now let's break this structure down, let's start by the `build` and `render` files:
-
-- `ExampleComponent.build.tsx`: is the component used during the development of the user's webform when the Edit mode is _Enabled_
-
-- `ExampleComponent.render.tsx`: is the component used during the rendering of the user's webform when the Edit mode is _Disabled_
-
-- `ExampleComponent.settings.tsx` is the file containing the settings for the component it's an array of objects the contains the structure of the properties components to customize the component during build mode, for style properties, `Datasources` or even simple properties like changing the a Button component's label
-
-- `ExampleComponent.config.tsx` is the file containing the general information for the component i.e Display Name, Component's icon, supported events, default props and so on.
-
-### API
-
-#### `useEnhancedNode`
-
-A Hook that provides methods and state information related to the corresponding Node that manages the current component.
-
-```javascript
-const { connectors, setProp, ...collected } = useNode(collector);
-```
-
-#### Parameters
-
-`collector`(node: Node) => Collected
-
-A function that collects relevant state information from the corresponding Node. The component will re-render when the values returned by this function changes.
-
-#### Returns
-
-- Object
-  - `id` NodeId
-    The corresponding Node's id
-  - `related` boolean
-    Identifies if the component is being used as related component
-  - `inNodeContext` boolean
-    This is useful if you are designing a User Component that you also wish to be used as an ordinary React Component; this property helps to differentiate whether the component is being used as a User Component or not
-  - `connectors` Object
-    - `connect` (dom: HTMLElement) => HTMLElement
-      Specifies the DOM that represents the User Component
-    - `drag` (dom: HTMLElement) => HTMLElement
-      Specifies the DOM that should be draggable
-  - `actions` Object
-    - `setProp` (props: Object, throttleRate?: number) => void
-      Manipulate the current component's props. Additionally, specify a throttleRate to throttle the changes recoded in history for undo/redo
-    - `setCustom` (custom: Object, throttleRate?: number) => void
-      Manipulate the current component's custom properties. Additionally, specify a throttleRate to throttle the changes recoded in history for undo/redo
-    - `setHidden` (bool: boolean) => void
-      Hide/unhide the current component
-    - `..collected` Collected
-      The collected values returned from the collector
-
-#### Example
-
-Collecting state information
-
-```tsx
-import cn from 'classnames';
-import { useEnhancedNode } from '@ws-ui/webform-editor';
-import { FC } from 'react';
-
-const Example: FC<ExampleProps> = () => {
-  const { isHovered, amIBeingDragged } = useEnhancedNode((node) => ({
-    isHovered: node.events.hovered,
-    amIBeingDragged: node.events.drag,
-  }));
-
-  return (
-    <div
-      className={cn({
-        hovering: isHovered,
-        dragged: amIBeingDragged,
-      })}
-    >
-      Hello World
-    </div>
-  );
-};
-```
-
-#### Connecting the component to be used within the editor
-
-To make the Editor recognize the component you need to connect it through the connect function, Connector must receive a HTML element which can be obtained via an element's `ref`.
-
-```tsx
-import { useEnhancedNode } from '@ws-ui/webform-editor';
-import cn from 'classnames';
-import { FC } from 'react';
-import { IExampleProps } from './Example.config';
-
-const Example: FC<IExampleProps> = ({ text = '', style, classNames = [] }) => {
-  const {
-    connectors: { connect },
-  } = useEnhancedNode();
-
-  return (
-    <div ref={connect} style={style} className={cn(classNames)}>
-      {text}
-    </div>
-  );
-};
-
-export default Example;
-```
-
-### DataSources
-
-#### hooks
-
-##### `useSources`
-
-A Hook that provides state information related to the datasouces bound with the current component.
-
-#### Returns
-
-- Object
-  - `sources` Object
-    - `datasource` datasources.DataSource
-      - `addListener` (method) datasources.DataSource.addListener(eventType: string, callback: Function): void
-      - `removeListener` (method) datasources.DataSource.addListener(eventType: string, callback: Function): void
-      - `getValue` (method) datasources.DataSource.getValue<string>(property?: string | number | undefined, settings?: any): Promise<string>
-      - `setValue` (method) datasources.DataSource.setValue<T = any>(property: string | null, value: T, doFireEvent?: boolean | undefined): Promise<void>
-    - `currentElement` datasources.DataSource
-
-#### Example
-
-```tsx
-import { useRenderer, useSources } from '@ws-ui/webform-editor';
-import cn from 'classnames';
-import { FC, useEffect, useState } from 'react';
-import { IIframeProps } from './Iframe.config';
-
-const Iframe: FC<IIframeProps> = ({
-  url = '',
-  style,
-  className = 'h-80 aspect-video',
-  classNames = [],
-}) => {
-  const { connect } = useRenderer();
-  const [value, setValue] = useState(() => url);
-  const {
-    sources: { datasource: ds },
-  } = useSources();
-
-  useEffect(() => {
-    if (!ds) return;
-
-    const listener = async (/* event */) => {
-      const v = await ds.getValue<string>();
-      setValue(v || url);
-    };
-
-    listener();
-
-    ds.addListener('changed', listener);
-
-    return () => {
-      ds.removeListener('changed', listener);
-    };
-  }, [ds]);
-
-  return (
-    <iframe
-      ref={connect}
-      style={style}
-      className={cn(className, classNames)}
-      src={value}
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-  );
-};
-
-export default Iframe;
-```
+| Name             | Type    | Default  | Description                                                                                                                     |
+| ---------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Layout           | string  | Vertical | Sets how the bars will be displayed, by default it's vertical                                                                   |
+| Offset           | string  | none     | Refers to the offset type                                                                                                       |
+| Segment accessor | string  |          | Refers to the segment identifier that will be accessed within your data, The segment is the bars' categories or groups          |
+| Left legend      | string  |          | Sets the label of the left legend                                                                                               |
+| Value accessor   | string  |          | Refers to the numeric/ size of the data section provided                                                                        |
+| Bottom Legend    | string  |          | Sets the label of the bottom legend                                                                                             |
+| Right Legend     | string  |          | Sets the label of the right legend                                                                                              |
+| Dimensions       | array   |          | Sets of objects with label and content properties                                                                               |
+| Legend position  | string  | Middle   | Sets the legends' position (end , top, middle)                                                                                  |
+| Inner padding    | number  | 9        | Sets the inner padding                                                                                                          |
+| Outer padding    | number  | 0        | Sets the outer padding                                                                                                          |
+| Color scheme     | string  | Nivo     | Sets the bars color'scheme                                                                                                      |
+| Show pattern     | boolean | false    | Controls if the bars' lines' patterns are visible or not                                                                        |
+| Is interactive   | boolean | false    | Controls if the chart is interactive by showing or hiding the informing dialog linked to each segment once ohvering on them not |

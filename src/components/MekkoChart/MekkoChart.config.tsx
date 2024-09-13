@@ -1,6 +1,6 @@
 import { EComponentKind, T4DComponentConfig } from '@ws-ui/webform-editor';
 import { Settings } from '@ws-ui/webform-editor';
-import { MdOutlineTextSnippet } from 'react-icons/md';
+import { RiBarChartGroupedLine } from 'react-icons/ri';
 
 import MekkoChartSettings, { BasicSettings } from './MekkoChart.settings';
 import { DatumPropertyAccessor } from '@nivo/marimekko';
@@ -22,7 +22,7 @@ export default {
   info: {
     displayName: 'MekkoChart',
     exposed: true,
-    icon: MdOutlineTextSnippet,
+    icon: RiBarChartGroupedLine,
     events: [
       {
         label: 'On Click',
