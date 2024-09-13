@@ -4,15 +4,30 @@ import { FC } from 'react';
 import { ResponsiveMarimekko } from '@nivo/marimekko';
 import { IMekkoChartProps } from './MekkoChart.config';
 
-const MekkoChart: FC<IMekkoChartProps> = ({ layout,offset,innerPadding,outerPadding,isInteractive,style, className, classNames = [] }) => {
+const MekkoChart: FC<IMekkoChartProps> = ({
+  layout,
+  offset,
+  innerPadding,
+  outerPadding,
+  isInteractive,
+  axisBottomLegend,
+  axisLeftLegend,
+  showPatternUse,
+  colorScheme,
+  axisRightLegend,
+  legendPosition,
+  style,
+  className,
+  classNames = [],
+}) => {
   const {
     connectors: { connect },
   } = useEnhancedNode();
 
   let data: any = [
     {
-      statement: "it's good",
-      participation: 9,
+      statement: "it's good", //id aka xAxis
+      participation: 9, //value aka yAxis
       stronglyAgree: 15,
       agree: 9,
       disagree: 22,
@@ -49,7 +64,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({ layout,offset,innerPadding,outerPadd
       agree: 14,
       disagree: 15,
       stronglyDisagree: 5,
-    }
+    },
   ];
 
   return (
@@ -81,66 +96,71 @@ const MekkoChart: FC<IMekkoChartProps> = ({ layout,offset,innerPadding,outerPadd
         outerPadding={outerPadding}
         axisTop={null}
         axisRight={{
-          // orient: 'right',
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: '',
+          legend: axisRightLegend,
           legendOffset: 0,
           truncateTickAt: 0,
         }}
         axisBottom={{
-          // orient: 'bottom',
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'participation',
+          legend: axisBottomLegend,
           legendOffset: 36,
-          legendPosition: 'middle',
+          legendPosition: legendPosition,
           truncateTickAt: 0,
         }}
         axisLeft={{
-          // orient: 'left',
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'opinions',
+          legend: axisLeftLegend,
           legendOffset: -40,
-          legendPosition: 'middle',
+          legendPosition: legendPosition,
           truncateTickAt: 0,
         }}
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
-        colors={{ scheme: 'spectral' }}
+        colors={{ scheme: colorScheme }}
         borderWidth={1}
         borderColor={{
           from: 'color',
           modifiers: [['darker', 0.2]],
         }}
-        defs={[
-          {
-            id: 'lines',
-            type: 'patternLines',
-            background: 'rgba(0, 0, 0, 0)',
-            color: 'inherit',
-            rotation: -45,
-            lineWidth: 4,
-            spacing: 8,
-          },
-        ]}
-        fill={[
-          {
-            match: {
-              id: 'agree strongly',
-            },
-            id: 'lines',
-          },
-          {
-            match: {
-              id: 'disagree strongly',
-            },
-            id: 'lines',
-          },
-        ]}
+        defs={
+          showPatternUse
+            ? [
+                {
+                  id: 'lines',
+                  type: 'patternLines',
+                  background: 'rgba(0, 0, 0, 0)',
+                  color: 'inherit',
+                  rotation: -45,
+                  lineWidth: 4,
+                  spacing: 8,
+                },
+              ]
+            : []
+        }
+        fill={
+          showPatternUse
+            ? [
+                {
+                  match: {
+                    id: 'agree strongly',
+                  },
+                  id: 'lines',
+                },
+                {
+                  match: {
+                    id: 'disagree strongly',
+                  },
+                  id: 'lines',
+                },
+              ]
+            : []
+        }
         legends={[
           {
             anchor: 'bottom',

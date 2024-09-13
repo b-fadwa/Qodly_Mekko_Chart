@@ -1,8 +1,8 @@
 import { useRenderer, useSources } from '@ws-ui/webform-editor';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
-import { ResponsiveMarimekko } from '@nivo/marimekko';
-import { IMekkoChartProps } from './MekkoChart.config';
+import { DatumPropertyAccessor, ResponsiveMarimekko } from '@nivo/marimekko';
+import { IDimension, IMekkoChartProps } from './MekkoChart.config';
 
 const MekkoChart: FC<IMekkoChartProps> = ({
   layout,
@@ -13,12 +13,24 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   innerPadding,
   outerPadding,
   isInteractive,
+  axisBottomLegend,
+  axisLeftLegend,
+  colorScheme,
+  showPatternUse,
+  axisRightLegend,
+  legendPosition,
   style,
   className,
   classNames = [],
 }) => {
   const { connect } = useRenderer();
-  const [value, setValue] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
+  const [id, setXasis] = useState<string | number | DatumPropertyAccessor<any, number>>('');
+  const [value, setYasis] = useState<string | number | DatumPropertyAccessor<any, number>>('');
+  const [dimensionData, setDimensions] = useState<IDimension[]>([]);
+  const [randomDim1, setRandomDim1] = useState<string>('');
+  const [randomDim2, setRandomDim2] = useState<string>('');
+
   const {
     sources: { datasource: ds },
   } = useSources();
@@ -28,7 +40,22 @@ const MekkoChart: FC<IMekkoChartProps> = ({
 
     const listener = async (/* event */) => {
       const v = await ds.getValue<any[]>();
-      setValue(v);
+      setData(v);
+      //set the properties
+      setXasis(xAxis);
+      setYasis(yAxis);
+      const updatedArray = dimensions.map((item) => ({
+        id: item.label,
+        value: item.content,
+      }));
+      setDimensions(updatedArray);
+      //to recheck
+      if (dimensionData.length > 0) {
+        const d1: string = dimensionData[Math.floor(Math.random() * dimensionData.length)].id;
+        setRandomDim1(d1);
+        const d2: string = dimensionData[Math.floor(Math.random() * dimensionData.length)].id;
+        setRandomDim2(d2);
+      }
     };
 
     listener();
@@ -41,80 +68,83 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ds]);
 
-  console.log({innerPadding},{outerPadding},{xAxis},{yAxis},{isInteractive},{offset},{layout},{dimensions})
-
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
       <ResponsiveMarimekko
-        data={value}
-        id={xAxis}
-        value={yAxis}
-        dimensions={dimensions}
+        data={data}
+        id={id}
+        value={value}
+        dimensions={dimensionData}
         innerPadding={innerPadding}
         outerPadding={outerPadding}
         isInteractive={isInteractive}
         axisTop={null}
         axisRight={{
-          // orient: 'right',
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: '',
+          legend: axisRightLegend,
           legendOffset: 0,
           truncateTickAt: 0,
         }}
         axisBottom={{
-          // orient: 'bottom',
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'participation',
+          legend: axisBottomLegend,
           legendOffset: 36,
-          legendPosition: 'middle',
+          legendPosition: legendPosition,
           truncateTickAt: 0,
         }}
         axisLeft={{
-          // orient: 'left',
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'opinions',
+          legend: axisLeftLegend,
           legendOffset: -40,
-          legendPosition: 'middle',
+          legendPosition: legendPosition,
           truncateTickAt: 0,
         }}
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
-        colors={{ scheme: 'spectral' }}
+        colors={{ scheme: colorScheme }}
         borderWidth={1}
         borderColor={{
           from: 'color',
           modifiers: [['darker', 0.2]],
         }}
-        defs={[
-          {
-            id: 'lines',
-            type: 'patternLines',
-            background: 'rgba(0, 0, 0, 0)',
-            color: 'inherit',
-            rotation: -45,
-            lineWidth: 4,
-            spacing: 8,
-          },
-        ]}
-        fill={[
-          {
-            match: {
-              id: 'agree strongly',
-            },
-            id: 'lines',
-          },
-          {
-            match: {
-              id: 'disagree strongly',
-            },
-            id: 'lines',
-          },
-        ]}
+        defs={
+          showPatternUse
+            ? [
+                {
+                  id: 'lines',
+                  type: 'patternLines',
+                  background: 'rgba(0, 0, 0, 0)',
+                  color: 'inherit',
+                  rotation: -45,
+                  lineWidth: 4,
+                  spacing: 8,
+                },
+              ]
+            : []
+        }
+        fill={
+          showPatternUse
+            ? [
+                {
+                  match: {
+                    id: randomDim1,
+                  },
+                  id: 'lines',
+                },
+                {
+                  match: {
+                    id: randomDim2,
+                  },
+                  id: 'lines',
+                },
+              ]
+            : []
+        }
         legends={[
           {
             anchor: 'bottom',

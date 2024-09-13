@@ -4,6 +4,7 @@ import { MdOutlineTextSnippet } from 'react-icons/md';
 
 import MekkoChartSettings, { BasicSettings } from './MekkoChart.settings';
 import { DatumPropertyAccessor } from '@nivo/marimekko';
+import { ColorSchemeId } from '@nivo/colors';
 
 export default {
   craft: {
@@ -57,27 +58,34 @@ export default {
     },
   },
   defaultProps: {
-    name: 'Qodly',
     style: {
-      width:'100%',
-      height:'500px',
-    }
+      width: '100%',
+      height: '500px',
+    },
+    colorScheme: 'nivo',
   },
 } as T4DComponentConfig<IMekkoChartProps>;
 
 export interface IMekkoChartProps extends webforms.ComponentProps {
   layout: any;
   offset: any;
-  xAxis: any;
-  yAxis: any;
-  dimensions: IDimension[];
-  innerPadding:number;
-  outerPadding:number;
+  xAxis: string;
+  yAxis: string;
+  dimensions: any[];
+  innerPadding: number;
+  outerPadding: number;
   showPatternUse: boolean;
   isInteractive: boolean;
+  axisBottomLegend: string;
+  axisLeftLegend: string;
+  axisRightLegend: string;
+  colorScheme: ColorSchemeId;
+  legendPosition: AxisLegendPosition;
 }
 
 export interface IDimension {
   id: string;
   value: string | number | DatumPropertyAccessor<any, number>;
 }
+
+type AxisLegendPosition = 'start' | 'middle' | 'end';
