@@ -49,13 +49,6 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         value: item.content,
       }));
       setDimensions(updatedArray);
-      //to recheck
-      if (dimensionData.length > 0) {
-        const d1: string = dimensionData[Math.floor(Math.random() * dimensionData.length)].id;
-        setRandomDim1(d1);
-        const d2: string = dimensionData[Math.floor(Math.random() * dimensionData.length)].id;
-        setRandomDim2(d2);
-      }
     };
 
     listener();
@@ -67,6 +60,22 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ds]);
+
+  useEffect(() => {
+    if (dimensionData.length > 1) {
+      let d1: string;
+      let d2: string;
+      do {
+        d1 = dimensionData[Math.floor(Math.random() * dimensionData.length)].id;
+        d2 = dimensionData[Math.floor(Math.random() * dimensionData.length)].id;
+      } while (d1 === d2);
+
+      if (d1 && d2) {
+        setRandomDim1(d1);
+        setRandomDim2(d2);
+      }
+    }
+  }, [dimensionData]);
 
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
