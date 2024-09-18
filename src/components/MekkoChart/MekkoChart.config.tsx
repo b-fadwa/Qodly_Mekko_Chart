@@ -63,6 +63,7 @@ export default {
       height: '500px',
     },
     colorScheme: 'nivo',
+    legendPosition: 'middle',
   },
 } as T4DComponentConfig<IMekkoChartProps>;
 
