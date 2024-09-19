@@ -39,48 +39,14 @@ const commonSettings: TSetting[] = [
     defaultValue: 'none',
   },
   {
-    key: 'xAxis',
-    label: 'Segment accessor',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
     key: 'axisLeftLegend',
     label: 'Left Legend',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'yAxis',
-    label: 'Value accessor',
     type: ESetting.TEXT_FIELD,
   },
   {
     key: 'axisBottomLegend',
     label: 'Bottom Legend',
     type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'axisRightLegend',
-    label: 'Right Legend',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    type: ESetting.DATAGRID,
-    key: 'dimensions',
-    label: 'Dimensions',
-    data: [
-      {
-        label: 'Label',
-        type: ESetting.TEXT_FIELD,
-        defaultValue: '',
-        key: 'label',
-      },
-      {
-        label: 'Content',
-        type: ESetting.TEXT_FIELD,
-        defaultValue: '',
-        key: 'content',
-      },
-    ],
   },
   {
     key: 'legendPosition',

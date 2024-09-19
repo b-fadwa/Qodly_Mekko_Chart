@@ -70,16 +70,12 @@ export default {
 export interface IMekkoChartProps extends webforms.ComponentProps {
   layout: any;
   offset: any;
-  xAxis: string;
-  yAxis: string;
-  dimensions: any[];
   innerPadding: number;
   outerPadding: number;
   showPatternUse: boolean;
   isInteractive: boolean;
   axisBottomLegend: string;
   axisLeftLegend: string;
-  axisRightLegend: string;
   colorScheme: ColorSchemeId;
   legendPosition: AxisLegendPosition;
 }

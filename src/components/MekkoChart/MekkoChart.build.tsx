@@ -14,7 +14,6 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   axisLeftLegend,
   showPatternUse,
   colorScheme,
-  axisRightLegend,
   legendPosition,
   style,
   className,
@@ -95,14 +94,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         innerPadding={innerPadding}
         outerPadding={outerPadding}
         axisTop={null}
-        axisRight={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: axisRightLegend,
-          legendOffset: 0,
-          truncateTickAt: 0,
-        }}
+        axisRight={null}
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,

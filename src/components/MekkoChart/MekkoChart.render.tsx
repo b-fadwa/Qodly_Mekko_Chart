@@ -7,9 +7,6 @@ import { IDimension, IMekkoChartProps } from './MekkoChart.config';
 const MekkoChart: FC<IMekkoChartProps> = ({
   layout,
   offset,
-  xAxis,
-  yAxis,
-  dimensions,
   innerPadding,
   outerPadding,
   isInteractive,
@@ -17,7 +14,6 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   axisLeftLegend,
   colorScheme,
   showPatternUse,
-  axisRightLegend,
   legendPosition,
   style,
   className,
@@ -30,6 +26,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   const [dimensionData, setDimensions] = useState<IDimension[]>([]);
   const [randomDim1, setRandomDim1] = useState<string>('');
   const [randomDim2, setRandomDim2] = useState<string>('');
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   const {
     sources: { datasource: ds },
@@ -41,14 +38,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     const listener = async (/* event */) => {
       const v = await ds.getValue<any[]>();
       setData(v);
-      //set the properties
-      setXasis(xAxis);
-      setYasis(yAxis);
-      const updatedArray = dimensions.map((item) => ({
-        id: item.label,
-        value: item.content,
-      }));
-      setDimensions(updatedArray);
+      setLoaded(true);
     };
 
     listener();
@@ -61,6 +51,27 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ds]);
 
+  //setting the id/value accessors + dimensions dynamically
+  useEffect(() => {
+    if (data.length != 0 && loaded) {
+      const idAccessor = Object.keys(data[0])[0];
+      const valueAccessor = Object.keys(data[0])[1];
+      const dimensions = Object.keys(data[0]).filter(
+        (key) => key !== idAccessor && key !== valueAccessor,
+      );
+      const updatedArray = dimensions.map((item) => ({
+        id: item,
+        value: item,
+      }));
+      if (idAccessor && valueAccessor) {
+        setXasis(idAccessor);
+        setYasis(valueAccessor);
+      }
+      setDimensions(updatedArray);
+    }
+  }, [loaded]);
+
+  //getting a random pair of dimensions for the pattern visibility
   useEffect(() => {
     if (dimensionData.length > 1) {
       let d1: string;
@@ -88,14 +99,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         outerPadding={outerPadding}
         isInteractive={isInteractive}
         axisTop={null}
-        axisRight={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: axisRightLegend,
-          legendOffset: 0,
-          truncateTickAt: 0,
-        }}
+        axisRight={null}
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
