@@ -40,12 +40,27 @@ const commonSettings: TSetting[] = [
   },
   {
     key: 'xAxis',
-    label: 'Id',
+    label: 'Segment accessor',
+    type: ESetting.TEXT_FIELD,
+  },
+  {
+    key: 'axisLeftLegend',
+    label: 'Left Legend',
     type: ESetting.TEXT_FIELD,
   },
   {
     key: 'yAxis',
-    label: 'Value',
+    label: 'Value accessor',
+    type: ESetting.TEXT_FIELD,
+  },
+  {
+    key: 'axisBottomLegend',
+    label: 'Bottom Legend',
+    type: ESetting.TEXT_FIELD,
+  },
+  {
+    key: 'axisRightLegend',
+    label: 'Right Legend',
     type: ESetting.TEXT_FIELD,
   },
   {
@@ -56,40 +71,145 @@ const commonSettings: TSetting[] = [
       {
         label: 'Label',
         type: ESetting.TEXT_FIELD,
-        defaultValue:'',
-        key: 'id',
+        defaultValue: '',
+        key: 'label',
       },
       {
-        label: 'Value',
+        label: 'Content',
         type: ESetting.TEXT_FIELD,
-        defaultValue:'',
-        key: 'value',
-      }
+        defaultValue: '',
+        key: 'content',
+      },
     ],
   },
   {
-    key: 'Inner padding',
-    label: 'innerPadding',
+    key: 'legendPosition',
+    label: 'Legend position',
+    type: ESetting.SELECT,
+    options: [
+      {
+        label: 'Top',
+        value: 'top',
+      },
+      {
+        label: 'Middle',
+        value: 'middle',
+      },
+      {
+        label: 'End',
+        value: 'end',
+      },
+    ],
+    defaultValue: 'middle',
+  },
+
+  {
+    key: 'innerPadding',
+    label: 'Inner padding',
     type: ESetting.NUMBER_FIELD,
     defaultValue: 9,
   },
   {
-    key: 'Outer padding',
-    label: 'outerPadding',
+    key: 'outerPadding',
+    label: 'Outer padding',
     type: ESetting.NUMBER_FIELD,
     defaultValue: 0,
   },
   {
-    key: 'Show pattern',
-    label: 'showPatternUse',
-    type: ESetting.CHECKBOX,
-    defaultValue: true,
+    key: 'colorScheme',
+    label: 'Color Scheme',
+    type: ESetting.SELECT,
+    options: [
+      {
+        label: 'Nivo',
+        value: 'nivo',
+      },
+      {
+        label: 'Reds',
+        value: 'reds',
+      },
+      {
+        label: 'Blues',
+        value: 'blues',
+      },
+      {
+        label: 'Greys',
+        value: 'greys',
+      },
+      {
+        label: 'Oranges',
+        value: 'oranges',
+      },
+      {
+        label: 'Greens',
+        value: 'greens',
+      },
+      {
+        label: 'Purples',
+        value: 'purples',
+      },
+      {
+        label: 'Category10',
+        value: 'category10',
+      },
+      {
+        label: 'Dark2',
+        value: 'dark2',
+      },
+      {
+        label: 'Pastel1',
+        value: 'pastel1',
+      },
+      {
+        label: 'Pastel2',
+        value: 'pastel2',
+      },
+      {
+        label: 'Set1',
+        value: 'set1',
+      },
+      {
+        label: 'Set2',
+        value: 'set2',
+      },
+      {
+        label: 'Set3',
+        value: 'set3',
+      },
+      {
+        label: 'Red-Yellow-Green',
+        value: 'red_yellow_green',
+      },
+      {
+        label: 'Red-Yellow-Blue',
+        value: 'red_yellow_blue',
+      },
+      {
+        label: 'PurpleRed-Green',
+        value: 'purpleRed_green',
+      },
+      {
+        label: 'Pink-YellowGreen',
+        value: 'pink_yellowGreen',
+      },
+      {
+        label: 'Purple-Orange',
+        value: 'purple_orange',
+      },
+    ],
+    defaultValue: 'nivo',
   },
   {
-    key: 'Interactive',
-    label: 'isInteractive',
+    key: 'showPatternUse',
+    label: 'Show Pattern',
     type: ESetting.CHECKBOX,
-    defaultValue: true,
+    defaultValue: false,
+  },
+  {
+    key: 'isInteractive',
+    label: 'Is Interactive',
+    type: ESetting.CHECKBOX,
+    defaultValue: false,
   },
 ];
 
