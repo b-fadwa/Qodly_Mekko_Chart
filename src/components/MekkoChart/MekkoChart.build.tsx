@@ -10,11 +10,8 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   innerPadding,
   outerPadding,
   isInteractive,
-  axisBottomLegend,
-  axisLeftLegend,
   showPatternUse,
   colorScheme,
-  legendPosition,
   style,
   className,
   classNames = [],
@@ -72,6 +69,15 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         data={data}
         id="statement"
         value="participation"
+        gridXValues={[]}
+        gridYValues={[]}
+        axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legendOffset: 36,
+          truncateTickAt: 0,
+        }}
         dimensions={[
           {
             id: 'disagree strongly',
@@ -93,26 +99,6 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         isInteractive={isInteractive}
         innerPadding={innerPadding}
         outerPadding={outerPadding}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: axisBottomLegend,
-          legendOffset: 36,
-          legendPosition: legendPosition,
-          truncateTickAt: 0,
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: axisLeftLegend,
-          legendOffset: -40,
-          legendPosition: legendPosition,
-          truncateTickAt: 0,
-        }}
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
         colors={{ scheme: colorScheme }}
         borderWidth={1}

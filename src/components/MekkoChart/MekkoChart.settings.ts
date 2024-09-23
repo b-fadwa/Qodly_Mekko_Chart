@@ -31,44 +31,9 @@ const commonSettings: TSetting[] = [
         label: 'expand',
         value: 'expand',
       },
-      {
-        label: 'diverging',
-        value: 'diverging',
-      },
     ],
     defaultValue: 'none',
   },
-  {
-    key: 'axisLeftLegend',
-    label: 'Left Legend',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'axisBottomLegend',
-    label: 'Bottom Legend',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'legendPosition',
-    label: 'Legend position',
-    type: ESetting.SELECT,
-    options: [
-      {
-        label: 'Top',
-        value: 'top',
-      },
-      {
-        label: 'Middle',
-        value: 'middle',
-      },
-      {
-        label: 'End',
-        value: 'end',
-      },
-    ],
-    defaultValue: 'middle',
-  },
-
   {
     key: 'innerPadding',
     label: 'Inner padding',

@@ -63,7 +63,7 @@ export default {
       height: '500px',
     },
     colorScheme: 'nivo',
-    legendPosition: 'middle',
+    isInteractive: false,
   },
 } as T4DComponentConfig<IMekkoChartProps>;
 
@@ -74,15 +74,10 @@ export interface IMekkoChartProps extends webforms.ComponentProps {
   outerPadding: number;
   showPatternUse: boolean;
   isInteractive: boolean;
-  axisBottomLegend: string;
-  axisLeftLegend: string;
   colorScheme: ColorSchemeId;
-  legendPosition: AxisLegendPosition;
 }
 
 export interface IDimension {
   id: string;
   value: string | number | DatumPropertyAccessor<any, number>;
 }
-
-type AxisLegendPosition = 'start' | 'middle' | 'end';

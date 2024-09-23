@@ -10,11 +10,8 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   innerPadding,
   outerPadding,
   isInteractive,
-  axisBottomLegend,
-  axisLeftLegend,
   colorScheme,
   showPatternUse,
-  legendPosition,
   style,
   className,
   classNames = [],
@@ -95,29 +92,18 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         id={id}
         value={value}
         dimensions={dimensionData}
-        innerPadding={innerPadding}
-        outerPadding={outerPadding}
-        isInteractive={isInteractive}
-        axisTop={null}
-        axisRight={null}
+        gridYValues={[]}
+        gridXValues={[]}
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: axisBottomLegend,
           legendOffset: 36,
-          legendPosition: legendPosition,
           truncateTickAt: 0,
         }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: axisLeftLegend,
-          legendOffset: -40,
-          legendPosition: legendPosition,
-          truncateTickAt: 0,
-        }}
+        innerPadding={innerPadding}
+        outerPadding={outerPadding}
+        isInteractive={isInteractive}
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
         colors={{ scheme: colorScheme }}
         borderWidth={1}
