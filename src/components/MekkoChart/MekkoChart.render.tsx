@@ -92,7 +92,9 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         id={id}
         value={value}
         dimensions={dimensionData}
+        enableGridX={true}
         gridYValues={[]}
+        enableGridY={true}
         gridXValues={[]}
         axisBottom={{
           tickSize: 5,

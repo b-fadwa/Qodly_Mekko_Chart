@@ -22,44 +22,44 @@ const MekkoChart: FC<IMekkoChartProps> = ({
 
   let data: any = [
     {
-      statement: "it's good", //id aka xAxis
+      statement: 'Statement 1', //id aka xAxis
       participation: 9, //value aka yAxis
-      stronglyAgree: 15,
-      agree: 9,
-      disagree: 22,
-      stronglyDisagree: 20,
+      dimension1: 15,
+      dimension2: 9,
+      dimension3: 22,
+      dimension4: 20,
     },
     {
-      statement: "it's sweet",
+      statement: 'Statement 2',
       participation: 12,
-      stronglyAgree: 28,
-      agree: 0,
-      disagree: 3,
-      stronglyDisagree: 26,
+      dimension1: 28,
+      dimension2: 0,
+      dimension3: 3,
+      dimension4: 26,
     },
     {
-      statement: "it's spicy",
+      statement: 'Statement 3',
       participation: 10,
-      stronglyAgree: 27,
-      agree: 24,
-      disagree: 20,
-      stronglyDisagree: 12,
+      dimension1: 27,
+      dimension2: 24,
+      dimension3: 20,
+      dimension4: 12,
     },
     {
-      statement: 'worth eating',
+      statement: 'Statement 4',
       participation: 11,
-      stronglyAgree: 20,
-      agree: 20,
-      disagree: 19,
-      stronglyDisagree: 14,
+      dimension1: 20,
+      dimension2: 20,
+      dimension3: 19,
+      dimension4: 14,
     },
     {
-      statement: 'worth buying',
+      statement: 'Statement 5',
       participation: 25,
-      stronglyAgree: 30,
-      agree: 14,
-      disagree: 15,
-      stronglyDisagree: 5,
+      dimension1: 30,
+      dimension2: 14,
+      dimension3: 15,
+      dimension4: 5,
     },
   ];
 
@@ -80,20 +80,20 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         }}
         dimensions={[
           {
-            id: 'disagree strongly',
-            value: 'stronglyDisagree',
+            id: 'Dimension 1',
+            value: 'dimension1',
           },
           {
-            id: 'disagree',
-            value: 'disagree',
+            id: 'Dimension 2',
+            value: 'dimension2',
           },
           {
-            id: 'agree',
-            value: 'agree',
+            id: 'Dimension 3',
+            value: 'dimension3',
           },
           {
-            id: 'agree strongly',
-            value: 'stronglyAgree',
+            id: 'Dimension 4',
+            value: 'dimension4',
           },
         ]}
         isInteractive={isInteractive}
@@ -126,13 +126,13 @@ const MekkoChart: FC<IMekkoChartProps> = ({
             ? [
                 {
                   match: {
-                    id: 'agree strongly',
+                    id: 'Dimension 3',
                   },
                   id: 'lines',
                 },
                 {
                   match: {
-                    id: 'disagree strongly',
+                    id: 'Dimension 1',
                   },
                   id: 'lines',
                 },
