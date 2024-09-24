@@ -61,10 +61,12 @@ export default {
     style: {
       width: '100%',
       height: '500px',
+      textAlign: 'center',
     },
     colorScheme: 'nivo',
     isInteractive: false,
     displayLabel: false,
+    displaytotal: false,
   },
 } as T4DComponentConfig<IMekkoChartProps>;
 
@@ -77,6 +79,7 @@ export interface IMekkoChartProps extends webforms.ComponentProps {
   isInteractive: boolean;
   colorScheme: ColorSchemeId;
   displayLabel: boolean;
+  displayTotal: boolean;
 }
 
 export interface IDimension {

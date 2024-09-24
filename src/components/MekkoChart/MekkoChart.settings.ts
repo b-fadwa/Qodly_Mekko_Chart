@@ -148,6 +148,12 @@ const commonSettings: TSetting[] = [
     type: ESetting.CHECKBOX,
     defaultValue: false,
   },
+  {
+    key: 'displayTotal',
+    label: 'Display total',
+    type: ESetting.CHECKBOX,
+    defaultValue: false,
+  },
 ];
 
 const Settings: TSetting[] = [

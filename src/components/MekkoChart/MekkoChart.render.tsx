@@ -13,6 +13,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   colorScheme,
   showPatternUse,
   displayLabel,
+  displayTotal,
   style,
   className,
   classNames = [],
@@ -25,6 +26,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   const [randomDim1, setRandomDim1] = useState<string>('');
   const [randomDim2, setRandomDim2] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [total, setTotal] = useState<number>(0);
 
   const {
     sources: { datasource: ds },
@@ -87,6 +89,10 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   }, [dimensionData]);
 
   const barLabel = ({ bars }: any) => {
+    const barTotal = bars.reduce((total: any, current: any) => {
+      return total + current.value;
+    }, 0);
+    setTotal(barTotal);
     return (
       <>
         {bars.map((bar: any) => (
@@ -107,6 +113,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
 
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
+      {displayTotal && <span className="bars-total text-l font-bold">Total: {total}</span>}
       <ResponsiveMarimekko
         data={data}
         id={id}
