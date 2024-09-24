@@ -7,18 +7,13 @@ import { IDimension, IMekkoChartProps } from './MekkoChart.config';
 const MekkoChart: FC<IMekkoChartProps> = ({
   layout,
   offset,
-  xAxis,
-  yAxis,
-  dimensions,
   innerPadding,
   outerPadding,
   isInteractive,
-  axisBottomLegend,
-  axisLeftLegend,
   colorScheme,
   showPatternUse,
-  axisRightLegend,
-  legendPosition,
+  displayLabel,
+  displayTotal,
   style,
   className,
   classNames = [],
@@ -30,6 +25,8 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   const [dimensionData, setDimensions] = useState<IDimension[]>([]);
   const [randomDim1, setRandomDim1] = useState<string>('');
   const [randomDim2, setRandomDim2] = useState<string>('');
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [total, setTotal] = useState<number>(0);
 
   const {
     sources: { datasource: ds },
@@ -41,14 +38,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     const listener = async (/* event */) => {
       const v = await ds.getValue<any[]>();
       setData(v);
-      //set the properties
-      setXasis(xAxis);
-      setYasis(yAxis);
-      const updatedArray = dimensions.map((item) => ({
-        id: item.label,
-        value: item.content,
-      }));
-      setDimensions(updatedArray);
+      setLoaded(true);
     };
 
     listener();
@@ -61,6 +51,41 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ds]);
 
+  //computing the total even if the labels are not displayed
+  const calculateTotal = (data: any[], xValue: any, yValue: string) => {
+    let barTotal = 0;
+    data.forEach((bar: any) => {
+      Object.entries(bar).forEach(([key, value]) => {
+        if (key !== xValue && key !== yValue && typeof value === 'number') {
+          barTotal += value;
+        }
+      });
+    });
+    setTotal(barTotal);
+  };
+
+  // Setting the id/value accessors + dimensions dynamically
+  useEffect(() => {
+    if (data.length != 0 && loaded) {
+      const idAccessor = Object.keys(data[0])[0];
+      const valueAccessor = Object.keys(data[0])[1];
+      const dimensions = Object.keys(data[0]).filter(
+        (key) => key !== idAccessor && key !== valueAccessor,
+      );
+      const updatedArray = dimensions.map((item) => ({
+        id: item,
+        value: item,
+      }));
+      if (idAccessor && valueAccessor) {
+        setXasis(idAccessor);
+        setYasis(valueAccessor);
+      }
+      setDimensions(updatedArray);
+      calculateTotal(data, idAccessor, valueAccessor);
+    }
+  }, [loaded]);
+
+  // Getting a random pair of dimensions for the pattern visibility
   useEffect(() => {
     if (dimensionData.length > 1) {
       let d1: string;
@@ -77,43 +102,47 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     }
   }, [dimensionData]);
 
+  const barLabel = ({ bars }: any) => {
+    return (
+      <>
+        {bars.map((bar: any) => (
+          <text
+            key={bar.key}
+            x={bar.x + bar.width / 2}
+            y={bar.y + bar.height / 2}
+            textAnchor="middle"
+            alignmentBaseline="middle"
+            className="bar-content text-sm font-medium text-inherit"
+          >
+            {bar.value === 0 ? '' : bar.value}
+          </text>
+        ))}
+      </>
+    );
+  };
+
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
+      {displayTotal && <span className="bars-total text-l font-bold">Total: {total}</span>}
       <ResponsiveMarimekko
         data={data}
         id={id}
         value={value}
         dimensions={dimensionData}
-        innerPadding={innerPadding}
-        outerPadding={outerPadding}
-        isInteractive={isInteractive}
-        axisTop={null}
-        axisRight={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: axisRightLegend,
-          legendOffset: 0,
-          truncateTickAt: 0,
-        }}
+        enableGridX={true}
+        gridYValues={[]}
+        enableGridY={true}
+        gridXValues={[]}
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: axisBottomLegend,
           legendOffset: 36,
-          legendPosition: legendPosition,
           truncateTickAt: 0,
         }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: axisLeftLegend,
-          legendOffset: -40,
-          legendPosition: legendPosition,
-          truncateTickAt: 0,
-        }}
+        innerPadding={innerPadding}
+        outerPadding={outerPadding}
+        isInteractive={isInteractive}
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
         colors={{ scheme: colorScheme }}
         borderWidth={1}
@@ -181,6 +210,11 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         ]}
         layout={layout}
         offset={offset}
+        layers={
+          displayLabel
+            ? ['grid', 'axes', 'bars', barLabel, 'legends']
+            : ['grid', 'axes', 'bars', 'legends']
+        }
       />
     </div>
   );

@@ -31,78 +31,9 @@ const commonSettings: TSetting[] = [
         label: 'expand',
         value: 'expand',
       },
-      {
-        label: 'diverging',
-        value: 'diverging',
-      },
     ],
     defaultValue: 'none',
   },
-  {
-    key: 'xAxis',
-    label: 'Segment accessor',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'axisLeftLegend',
-    label: 'Left Legend',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'yAxis',
-    label: 'Value accessor',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'axisBottomLegend',
-    label: 'Bottom Legend',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    key: 'axisRightLegend',
-    label: 'Right Legend',
-    type: ESetting.TEXT_FIELD,
-  },
-  {
-    type: ESetting.DATAGRID,
-    key: 'dimensions',
-    label: 'Dimensions',
-    data: [
-      {
-        label: 'Label',
-        type: ESetting.TEXT_FIELD,
-        defaultValue: '',
-        key: 'label',
-      },
-      {
-        label: 'Content',
-        type: ESetting.TEXT_FIELD,
-        defaultValue: '',
-        key: 'content',
-      },
-    ],
-  },
-  {
-    key: 'legendPosition',
-    label: 'Legend position',
-    type: ESetting.SELECT,
-    options: [
-      {
-        label: 'Top',
-        value: 'top',
-      },
-      {
-        label: 'Middle',
-        value: 'middle',
-      },
-      {
-        label: 'End',
-        value: 'end',
-      },
-    ],
-    defaultValue: 'middle',
-  },
-
   {
     key: 'innerPadding',
     label: 'Inner padding',
@@ -208,6 +139,18 @@ const commonSettings: TSetting[] = [
   {
     key: 'isInteractive',
     label: 'Is Interactive',
+    type: ESetting.CHECKBOX,
+    defaultValue: false,
+  },
+  {
+    key: 'displayLabel',
+    label: 'Display label',
+    type: ESetting.CHECKBOX,
+    defaultValue: false,
+  },
+  {
+    key: 'displayTotal',
+    label: 'Display total',
     type: ESetting.CHECKBOX,
     defaultValue: false,
   },

@@ -1,6 +1,6 @@
 import { EComponentKind, T4DComponentConfig } from '@ws-ui/webform-editor';
 import { Settings } from '@ws-ui/webform-editor';
-import { RiBarChartGroupedLine } from 'react-icons/ri';
+import { MdOutlineStackedBarChart } from 'react-icons/md';
 
 import MekkoChartSettings, { BasicSettings } from './MekkoChart.settings';
 import { DatumPropertyAccessor } from '@nivo/marimekko';
@@ -22,7 +22,7 @@ export default {
   info: {
     displayName: 'MekkoChart',
     exposed: true,
-    icon: RiBarChartGroupedLine,
+    icon: MdOutlineStackedBarChart,
     events: [
       {
         label: 'On Click',
@@ -61,32 +61,28 @@ export default {
     style: {
       width: '100%',
       height: '500px',
+      textAlign: 'center',
     },
     colorScheme: 'nivo',
-    legendPosition: 'middle',
+    isInteractive: false,
+    displayLabel: false,
+    displaytotal: false,
   },
 } as T4DComponentConfig<IMekkoChartProps>;
 
 export interface IMekkoChartProps extends webforms.ComponentProps {
   layout: any;
   offset: any;
-  xAxis: string;
-  yAxis: string;
-  dimensions: any[];
   innerPadding: number;
   outerPadding: number;
   showPatternUse: boolean;
   isInteractive: boolean;
-  axisBottomLegend: string;
-  axisLeftLegend: string;
-  axisRightLegend: string;
   colorScheme: ColorSchemeId;
-  legendPosition: AxisLegendPosition;
+  displayLabel: boolean;
+  displayTotal: boolean;
 }
 
 export interface IDimension {
   id: string;
   value: string | number | DatumPropertyAccessor<any, number>;
 }
-
-type AxisLegendPosition = 'start' | 'middle' | 'end';
