@@ -51,7 +51,20 @@ const MekkoChart: FC<IMekkoChartProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ds]);
 
-  //setting the id/value accessors + dimensions dynamically
+  //computing the total even if the labels are not displayed
+  const calculateTotal = (data: any[], xValue: any, yValue: string) => {
+    let barTotal = 0;
+    data.forEach((bar: any) => {
+      Object.entries(bar).forEach(([key, value]) => {
+        if (key !== xValue && key !== yValue && typeof value === 'number') {
+          barTotal += value;
+        }
+      });
+    });
+    setTotal(barTotal);
+  };
+
+  // Setting the id/value accessors + dimensions dynamically
   useEffect(() => {
     if (data.length != 0 && loaded) {
       const idAccessor = Object.keys(data[0])[0];
@@ -68,10 +81,11 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         setYasis(valueAccessor);
       }
       setDimensions(updatedArray);
+      calculateTotal(data, idAccessor, valueAccessor);
     }
   }, [loaded]);
 
-  //getting a random pair of dimensions for the pattern visibility
+  // Getting a random pair of dimensions for the pattern visibility
   useEffect(() => {
     if (dimensionData.length > 1) {
       let d1: string;
@@ -89,10 +103,6 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   }, [dimensionData]);
 
   const barLabel = ({ bars }: any) => {
-    const barTotal = bars.reduce((total: any, current: any) => {
-      return total + current.value;
-    }, 0);
-    setTotal(barTotal);
     return (
       <>
         {bars.map((bar: any) => (

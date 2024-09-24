@@ -1,6 +1,6 @@
 import { useEnhancedNode } from '@ws-ui/webform-editor';
 import cn from 'classnames';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { ResponsiveMarimekko } from '@nivo/marimekko';
 import { IMekkoChartProps } from './MekkoChart.config';
 
@@ -21,8 +21,6 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   const {
     connectors: { connect },
   } = useEnhancedNode();
-
-  const [total, setTotal] = useState<number>(0);
 
   let data: any = [
     {
@@ -68,11 +66,6 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   ];
 
   const barLabel = ({ bars }: any) => {
-    //to get the total
-    const barTotal = bars.reduce((total: any, current: any) => {
-      return total + current.value;
-    }, 0);
-    setTotal(barTotal);
     return (
       <>
         {bars.map((bar: any) => (
@@ -93,7 +86,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
 
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
-      {displayTotal && <span className="bars-total text-l font-bold">Total: {total}</span>}
+      {displayTotal && <span className="bars-total text-l font-bold">Total: 0</span>}
       <ResponsiveMarimekko
         data={data}
         id="statement"
