@@ -210,7 +210,11 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         ]}
         layout={layout}
         offset={offset}
-        layers={displayLabel ? ['grid', 'axes', 'bars', barLabel] : ['grid', 'axes', 'bars']}
+        layers={
+          displayLabel
+            ? ['grid', 'axes', 'bars', barLabel, 'legends']
+            : ['grid', 'axes', 'bars', 'legends']
+        }
       />
     </div>
   );
