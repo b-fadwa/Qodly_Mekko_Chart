@@ -23,15 +23,16 @@ The mekko chart component, provided by the nivo library, also known by the Marim
 | Color scheme   | string  | Nivo     | Sets the bars color'scheme                                                                                                      |
 | Show pattern   | boolean | false    | Controls if the bars' lines' patterns are visible or not                                                                        |
 | Is interactive | boolean | false    | Controls if the chart is interactive by showing or hiding the informing dialog linked to each segment once hovering on them not |
-
+| Display label  | boolean | false    | Controls if the labels on each bar segement is visible or not                                                                   |
+| Display total  | boolean | false    | Controls if the total of all the bars segments is visible or not                                                                |
 
 #### Data sample
 
-```Json 
+```Json
 [
     {
       "statement": "Statement 1", //id
-      "participation": 9, //value 
+      "participation": 9, //value
       "dimension1": 15,//dimension 1
       "dimension2": 9,
       "dimension3": 22,
@@ -46,4 +47,3 @@ The mekko chart component, provided by the nivo library, also known by the Marim
       "dimension4": 26
     },...]
 ```
-
