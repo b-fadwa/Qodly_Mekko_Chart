@@ -34,7 +34,6 @@
     }
   },
   "dependencies": {
-    "@nivo/bar": "^0.87.0",
     "@nivo/marimekko": "^0.87.0",
     "@ws-ui/craftjs-core": "0.2.11",
     "@ws-ui/craftjs-layers": "0.2.4",
