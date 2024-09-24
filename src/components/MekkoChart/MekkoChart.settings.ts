@@ -142,6 +142,12 @@ const commonSettings: TSetting[] = [
     type: ESetting.CHECKBOX,
     defaultValue: false,
   },
+  {
+    key: 'displayLabel',
+    label: 'Display label',
+    type: ESetting.CHECKBOX,
+    defaultValue: false,
+  },
 ];
 
 const Settings: TSetting[] = [

@@ -12,6 +12,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   isInteractive,
   colorScheme,
   showPatternUse,
+  displayLabel,
   style,
   className,
   classNames = [],
@@ -84,6 +85,25 @@ const MekkoChart: FC<IMekkoChartProps> = ({
       }
     }
   }, [dimensionData]);
+
+  const barLabel = ({ bars }: any) => {
+    return (
+      <>
+        {bars.map((bar: any) => (
+          <text
+            key={bar.key}
+            x={bar.x + bar.width / 2}
+            y={bar.y + bar.height / 2}
+            textAnchor="middle"
+            alignmentBaseline="middle"
+            className="bar-content text-sm font-medium text-inherit"
+          >
+            {bar.value === 0 ? '' : bar.value}
+          </text>
+        ))}
+      </>
+    );
+  };
 
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
@@ -173,6 +193,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         ]}
         layout={layout}
         offset={offset}
+        layers={displayLabel ? ['grid', 'axes', 'bars', barLabel] : ['grid', 'axes', 'bars']}
       />
     </div>
   );

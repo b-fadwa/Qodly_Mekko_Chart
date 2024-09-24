@@ -12,6 +12,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
   isInteractive,
   showPatternUse,
   colorScheme,
+  displayLabel,
   style,
   className,
   classNames = [],
@@ -22,8 +23,8 @@ const MekkoChart: FC<IMekkoChartProps> = ({
 
   let data: any = [
     {
-      statement: 'Statement 1', //id aka xAxis
-      participation: 9, //value aka yAxis
+      statement: 'Statement 1', // id aka xAxis
+      participation: 9, // value aka yAxis
       dimension1: 15,
       dimension2: 9,
       dimension3: 22,
@@ -62,6 +63,25 @@ const MekkoChart: FC<IMekkoChartProps> = ({
       dimension4: 5,
     },
   ];
+
+  const barLabel = ({ bars }: any) => {
+    return (
+      <>
+        {bars.map((bar: any) => (
+          <text
+            key={bar.key}
+            x={bar.x + bar.width / 2}
+            y={bar.y + bar.height / 2}
+            textAnchor="middle"
+            alignmentBaseline="middle"
+            className="bar-content text-sm font-medium text-inherit"
+          >
+            {bar.value === 0 ? '' : bar.value}
+          </text>
+        ))}
+      </>
+    );
+  };
 
   return (
     <div ref={connect} style={style} className={cn(className, classNames)}>
@@ -166,6 +186,7 @@ const MekkoChart: FC<IMekkoChartProps> = ({
         ]}
         layout={layout}
         offset={offset}
+        layers={displayLabel ? ['grid', 'axes', 'bars', barLabel] : ['grid', 'axes', 'bars']}
       />
     </div>
   );
